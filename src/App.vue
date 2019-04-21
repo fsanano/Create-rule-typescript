@@ -1,6 +1,6 @@
 <template>
   <div class="container__wrap">
-    
+
     <div class="form__row">
       <div class="h2">Where would you like to display your campaign?</div>
 
@@ -19,7 +19,16 @@
       <div class="h2">Exclusion Rules</div>
       <ButtonNewRule/>
     </div>
-    
+
+    <div class="rules__containe">
+      <div
+        v-if="rules.length && !isFormNewRuleVisible"
+        v-for="rule in rules"
+        :key="rule.url"
+        class="rule"
+        v-html="`${rule.type} - ${rule.url}`"
+      />
+    </div>
   </div>
 </template>
 
@@ -40,6 +49,7 @@ import ButtonNewRule from '@/components/ButtonNewRule.vue';
 export default class App extends Vue {
   @Mutation('setFormNewRuleStatus') public setFormNewRuleStatus: any;
   @State('isFormNewRuleVisible') public isFormNewRuleVisible!: boolean;
+  @State('rules') public rules!: [];
 
   private showForm() {
     this.setFormNewRuleStatus(true);
@@ -69,5 +79,8 @@ body
 .form__row
   margin-bottom 31px
 
-
+.rule
+  margin-bottom: 10px
+  font-size: 14px
+  font-weight: bold
 </style>
