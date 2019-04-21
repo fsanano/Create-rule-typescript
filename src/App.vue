@@ -2,10 +2,19 @@
   <div class="container__wrap">
     <div class="form__row">
       <div class="h2">Where would you like to display your campaign?</div>
-      <ButtonNewRule/>
+
+      <FormCampaignRule v-if="isFormNewRuleVisible"/>
+
+      <ButtonNewRule
+        v-else
+        @click.native="showForm"
+      />
     </div>
 
-    <div class="form__row">
+    <div
+      v-if="!isFormNewRuleVisible"
+      class="form__row"
+    >
       <div class="h2">Exclusion Rules</div>
       <ButtonNewRule/>
     </div>
@@ -14,17 +23,26 @@
 </template>
 
 <script lang="ts">
-import Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
+import { State, Mutation } from 'vuex-class';
 
+import FormCampaignRule from '@/components/FormCampaignRule.vue';
 import ButtonNewRule from '@/components/ButtonNewRule.vue';
 
 @Component({
   components: {
+    FormCampaignRule,
     ButtonNewRule,
   },
 })
 
 export default class App extends Vue {
+  @Mutation('setFormNewRuleStatus') public setFormNewRuleStatus: any;
+  @State('isFormNewRuleVisible') public isFormNewRuleVisible!: boolean;
+
+  private showForm() {
+    this.setFormNewRuleStatus(true);
+  }
 }
 </script>
 
