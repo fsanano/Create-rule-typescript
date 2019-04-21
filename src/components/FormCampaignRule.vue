@@ -26,24 +26,23 @@
         <div class="col-8">
           <input
             v-model="formUrl"
-            :class="{ 'error' : hasError }"
+            :class="{ 'error' : formError.status }"
             type="text"
             placeholder="Display URL"
             class="form__input"
           >
           <div
-            v-if="hasError"
+            v-if="formError.status"
             class="input__error"
-          >
-            URL is Missing
-          </div>
+            v-html="formError.msg"
+          />
         </div>
 
       </div>
 
     </form>
 
-    <ButtonNewRule v-if="!hasError"/>
+    <ButtonNewRule v-if="!formError.status"/>
   </div>
 </template>
 
@@ -62,6 +61,7 @@ import ButtonNewRule from '@/components/ButtonNewRule.vue';
 export default class FormCampaignRule extends Vue {
   @Mutation('setFormNewRuleStatus') public setFormNewRuleStatus: any;
 
+  private errorMsg: string = '';
   private formType: string = '';
   private formUrl: string = '';
 
@@ -69,8 +69,36 @@ export default class FormCampaignRule extends Vue {
     this.setFormNewRuleStatus(false);
   }
 
-  get hasError() {
-    return this.formUrl === '';
+  private isValidURL(url: string) {
+    const regex = new RegExp('^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?'
+      + '[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$');
+
+    if (!regex .test(url)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  get formError() {
+    if (this.formUrl === '') {
+      return {
+        status: true,
+        msg: 'URL is Missing',
+      };
+    }
+
+    if (!this.isValidURL(this.formUrl)) {
+      return {
+        status: true,
+        msg: 'URL is Incorrect',
+      };
+    }
+
+    return {
+      status: false,
+      msg: '',
+    };
   }
 }
 </script>
