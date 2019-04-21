@@ -1,5 +1,6 @@
 <template>
   <div class="container__wrap">
+    
     <div class="form__row">
       <div class="h2">Where would you like to display your campaign?</div>
 

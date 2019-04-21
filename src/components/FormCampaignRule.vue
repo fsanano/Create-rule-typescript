@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <form class="form__container">
+  <form @submit.prevent="createRule">
+    <div class="form__container">
 
       <div class="form__title">Type a full or partial url where you would like to display notifications.</div>
 
@@ -30,10 +30,10 @@
 
       </div>
 
-    </form>
+    </div>
 
     <ButtonNewRule v-if="!formError.status"/>
-  </div>
+  </form>
 </template>
 
 <script lang="ts">
@@ -54,6 +54,7 @@ import BaseInput from '@/components/BaseInput.vue';
 
 export default class FormCampaignRule extends Vue {
   @Mutation('setFormNewRuleStatus') public setFormNewRuleStatus: any;
+  @Mutation('addNewRule') public addNewRule: any;
 
   private typeList = {
     contains: 'Contains',
@@ -78,6 +79,15 @@ export default class FormCampaignRule extends Vue {
     }
 
     return true;
+  }
+
+  private createRule() {
+    this.addNewRule({
+      type: this.formType,
+      url: this.formUrl,
+    });
+
+    this.hideForm();
   }
 
   get formError() {
