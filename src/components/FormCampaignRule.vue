@@ -14,13 +14,10 @@
       <div class="row d-flex">
 
         <div class="col-4">
-          <select
+          <BaseSelect
+            :options="typeList"
             v-model="formType"
-            class="form__input"
-          >
-            <option value="contains">Contains</option>
-            <option value="exact-match">Exact Match</option>
-          </select>
+          />
         </div>
 
         <div class="col-8">
@@ -51,18 +48,24 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Mutation } from 'vuex-class';
 
 import ButtonNewRule from '@/components/ButtonNewRule.vue';
+import BaseSelect from '@/components/BaseSelect.vue';
 
 @Component({
   components: {
     ButtonNewRule,
+    BaseSelect,
   },
 })
 
 export default class FormCampaignRule extends Vue {
   @Mutation('setFormNewRuleStatus') public setFormNewRuleStatus: any;
 
-  private errorMsg: string = '';
-  private formType: string = '';
+  private typeList = {
+    contains: 'Contains',
+    exactMatch: 'Exact Match',
+  };
+
+  private formType: string = 'contains';
   private formUrl: string = '';
 
   private hideForm() {
@@ -100,6 +103,7 @@ export default class FormCampaignRule extends Vue {
       msg: '',
     };
   }
+
 }
 </script>
 
