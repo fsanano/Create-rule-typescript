@@ -1,18 +1,34 @@
 <template>
-  <input
-    :value="value"
-    :class="{ 'error' : formError.status }"
-    type="text"
-    placeholder="Display URL"
-    class="form__input"
-  >
+  <div class="input__container">
+    <input
+      :value="value"
+      :class="{ 'error' : error.status }"
+      :placeholder="placeholder"
+      @input="input($event.target.value)"
+      type="text"
+      class="form__input"
+    />
+    <div
+      v-if="error.status"
+      class="input__error"
+      v-html="error.msg"
+    />
+  </div>
+  
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
+@Component
 export default class InputBase extends Vue {
+  @Prop(String) private value!: string;
+  @Prop(String) private placeholder!: string;
+  @Prop(Object) private error!: any;
 
+  public input(val: string) {
+    this.$emit('input', val);
+  }
 }
 </script>
 

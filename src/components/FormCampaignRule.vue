@@ -21,17 +21,10 @@
         </div>
 
         <div class="col-8">
-          <input
+          <BaseInput
             v-model="formUrl"
-            :class="{ 'error' : formError.status }"
-            type="text"
+            :error="formError"
             placeholder="Display URL"
-            class="form__input"
-          >
-          <div
-            v-if="formError.status"
-            class="input__error"
-            v-html="formError.msg"
           />
         </div>
 
@@ -49,11 +42,13 @@ import { Mutation } from 'vuex-class';
 
 import ButtonNewRule from '@/components/ButtonNewRule.vue';
 import BaseSelect from '@/components/BaseSelect.vue';
+import BaseInput from '@/components/BaseInput.vue';
 
 @Component({
   components: {
     ButtonNewRule,
     BaseSelect,
+    BaseInput,
   },
 })
 
@@ -64,6 +59,8 @@ export default class FormCampaignRule extends Vue {
     contains: 'Contains',
     exactMatch: 'Exact Match',
   };
+
+  private placeholder: string = 'Display URL';
 
   private formType: string = 'contains';
   private formUrl: string = '';
@@ -138,30 +135,6 @@ export default class FormCampaignRule extends Vue {
 
 .col-8
   width 66.66%
-
-.form__input
-  width 100%
-  box-sizing border-box
-  border-radius 5px
-  border 2px solid #d6d9de
-  height 41px
-  padding 5px 20px
-  background-color transparent
-
-  &.error
-    border-color #a24a65
-
-  &:focus
-    outline none
-
-.input__error
-  padding 13px 17px
-  height 45px
-  width 100%
-  border-radius 5px
-  background-color #f6f7f9
-  color #c37987
-  box-sizing border-box
 
 .form__close
   position absolute

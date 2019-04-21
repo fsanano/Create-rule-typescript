@@ -23,7 +23,6 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
 
 @Component
 export default class BaseSelect extends Vue {
-
   @Prop({ default: 'contains'}) private value!: string;
   @Prop() private options!: string[];
 
